@@ -1,0 +1,35 @@
+/* Import your complete CSS here */
+@import './styles/Global.css';
+@import './styles/Components.css';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-bg: #000000;
+  --secondary-bg: #0a0a0a;
+  --card-bg: rgba(30, 30, 30, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --accent-blue: #007aff;
+  --accent-purple: #5856d6;
+  --accent-pink: #ff2d92;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow: rgba(0, 0, 0, 0.8);
+}
+
+/* Copy your entire CSS content from first.css here */
+/* The CSS is too long to include completely in this response, 
+   but you should copy the entire content from your first.css file */
+
+/* Add any additional React-specific styles if needed */
+.App {
+  min-height: 100vh;
+}
+
+.adjustment-margins {
+  padding-left: 138px; /* adjust as needed */
+}
