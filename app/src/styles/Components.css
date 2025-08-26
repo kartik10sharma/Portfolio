@@ -1,28 +1,141 @@
 /* Custom Cursor */
+/* ===== CUSTOM CURSOR STYLES ===== */
+/* ===== CUSTOM CURSOR STYLES ===== */
+
 .cursor {
   position: fixed;
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 12px;
   background: var(--accent-blue);
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
-  transition: all 0.1s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   mix-blend-mode: difference;
-  opacity: 0.8;
+  opacity: 0.9;
+  transform: translate(-50%, -50%);
 }
 
 .cursor-follower {
   position: fixed;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--accent-blue);
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--accent-blue);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  transition: all 0.15s ease;
-  opacity: 0.3;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  background: transparent;
 }
+
+/* Light Theme Cursor Styles - Better Sizes */
+body.light-theme .cursor {
+  background: #3b82f6;
+  width: 10px;
+  height: 10px;
+  opacity: 0.8;
+  mix-blend-mode: normal;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+body.light-theme .cursor-follower {
+  border: 2px solid #3b82f6;
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+  background: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+}
+
+/* Hover States - Proper Scaling */
+.cursor.cursor-hover {
+  transform: translate(-50%, -50%) scale(1.8);
+  background: var(--accent-blue);
+  opacity: 1;
+}
+
+.cursor-follower.cursor-follower-hover {
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 0.8;
+  border-width: 3px;
+}
+
+/* Light Theme Hover States - Fixed Scaling */
+body.light-theme .cursor.cursor-hover {
+  background: #3b82f6;
+  transform: translate(-50%, -50%) scale(2.2);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+  opacity: 1;
+}
+
+body.light-theme .cursor-follower.cursor-follower-hover {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  transform: translate(-50%, -50%) scale(1.8);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  opacity: 0.8;
+  border-width: 3px;
+}
+
+/* Remove problematic animations that cause issues */
+body.light-theme .cursor.cursor-hover {
+  animation: none;
+}
+
+body.light-theme .cursor-follower.cursor-follower-hover {
+  animation: none;
+}
+
+/* Better performance */
+.cursor,
+.cursor-follower {
+  will-change: transform, left, top;
+  backface-visibility: hidden;
+}
+
+/* Hide cursor on mobile devices */
+@media (max-width: 768px) {
+  .cursor,
+  .cursor-follower {
+    display: none !important;
+  }
+  
+  body {
+    cursor: auto !important;
+  }
+  
+  * {
+    cursor: auto !important;
+  }
+}
+
+/* Hide default cursor when custom cursor is active */
+@media (min-width: 769px) {
+  body {
+    cursor: none;
+  }
+  
+  * {
+    cursor: none;
+  }
+  
+  a, button, .clickable, .cta-button, .project-link, .theme-toggle {
+    cursor: none;
+  }
+}
+
+/* Smooth cursor movement with better performance */
+.cursor {
+  transition: transform 0.15s ease-out;
+}
+
+.cursor-follower {
+  transition: transform 0.25s ease-out, border-width 0.2s ease-out;
+}
+
+
 
 /* Background Animation */
 /* Vision Pro Inspired Background Animation */
@@ -680,14 +793,15 @@ nav {
   animation: ripple 2s infinite;
 }
 
-/* Theme Toggle */
+/* ===== THEME TOGGLE SECTION ===== */
+
 .theme-toggle {
   position: fixed;
   bottom: 200px;
   right: 30px;
   width: 50px;
   height: 100px;
-  background: var(--glass-bg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(240, 245, 255, 0.25));
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: 25px;
@@ -698,12 +812,26 @@ nav {
   padding: 10px 0;
   z-index: 1000;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 25px var(--shadow);
+}
+
+/* Light theme toggle container - BRIGHT COLORS */
+body.light-theme .theme-toggle {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(124, 58, 237, 0.10));
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.20);
 }
 
 .theme-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 25px var(--shadow);
+  box-shadow: 0 15px 35px var(--shadow);
+}
+
+body.light-theme .theme-toggle:hover {
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.30);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(124, 58, 237, 0.15));
 }
 
 .theme-option {
@@ -713,22 +841,148 @@ nav {
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .theme-option.dark {
-  background: linear-gradient(135deg, #000, #333);
+  background: linear-gradient(135deg, #1a1a1a, #333);
   border: 2px solid var(--accent-blue);
 }
 
 .theme-option.light {
-  background: linear-gradient(135deg, #fff, #f0f0f0);
-  border: 2px solid transparent;
+  background: linear-gradient(135deg, #fef3c7, #fed7aa);
+  border: 2px solid rgba(249, 115, 22, 0.3);
+}
+
+/* Light theme adjustments - BRIGHT & ENGAGING */
+body.light-theme .theme-option.dark {
+  background: linear-gradient(135deg, #1e293b, #475569);
+  border: 2px solid #2563eb;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+}
+
+body.light-theme .theme-option.light {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde047 50%, #facc15 100%);
+  border: 2px solid #eab308;
+  box-shadow: 0 4px 15px rgba(234, 179, 8, 0.35);
 }
 
 .theme-option.active {
   transform: scale(1.2);
   box-shadow: 0 0 15px var(--accent-blue);
 }
+
+body.light-theme .theme-option.active {
+  transform: scale(1.25);
+  animation: brightPulse 2s ease-in-out infinite;
+}
+
+body.light-theme .theme-option.dark.active {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.6);
+}
+
+body.light-theme .theme-option.light.active {
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.7);
+}
+
+/* Theme icons - Enhanced for light theme */
+.theme-icon {
+  font-size: 14px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.theme-option.active .theme-icon {
+  opacity: 1;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px var(--accent-blue));
+}
+
+body.light-theme .theme-option.active .theme-icon {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+body.light-theme .theme-option.dark.active .theme-icon {
+  filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.8));
+}
+
+body.light-theme .theme-option.light.active .theme-icon {
+  filter: drop-shadow(0 0 10px rgba(234, 179, 8, 0.9));
+}
+
+/* Bright theme background effects */
+body.light-theme {
+  --primary-bg: linear-gradient(135deg, #fafdff 0%, #e6f0ff 100%);
+  --secondary-bg: linear-gradient(135deg, #ffffff 0%, #f1f8ff 100%);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --text-primary: #1e3a8a;
+  --text-secondary: #475569;
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
+  --accent-yellow: #eab308;
+  --accent-orange: #ea580c;
+  --border-color: rgba(37, 99, 235, 0.15);
+  --shadow: rgba(37, 99, 235, 0.12);
+}
+
+/* Enhanced background for light theme */
+body.light-theme {
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 0.95) 0%, 
+    rgba(240, 249, 255, 0.90) 30%,
+    rgba(224, 242, 254, 0.85) 70%,
+    rgba(219, 234, 254, 0.80) 100%);
+}
+
+html.light-theme {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+}
+
+/* Bright animated background */
+body.light-theme .bg-animation {
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(234, 179, 8, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(234, 88, 12, 0.08) 0%, transparent 50%);
+}
+
+/* Bright pulse animation for active state */
+@keyframes brightPulse {
+  0%, 100% { 
+    transform: scale(1.25);
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.7);
+  }
+  50% { 
+    transform: scale(1.3);
+    box-shadow: 0 0 30px rgba(234, 179, 8, 0.9), 0 0 40px rgba(37, 99, 235, 0.3);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .theme-toggle {
+    bottom: 120px;
+    right: 20px;
+    width: 45px;
+    height: 90px;
+  }
+  
+  .theme-option {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .theme-icon {
+    font-size: 12px;
+  }
+}
+
 
 /* Social Media Links */
 .social-links {
