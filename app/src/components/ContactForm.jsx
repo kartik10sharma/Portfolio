@@ -1,38 +1,46 @@
 import React, { useState } from 'react'
+const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY'
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   })
+  const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'success' | 'error'
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setStatus('sending')
 
     try {
-      const response = await fetch('/api/send-email', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || 'New message from portfolio',
+          message: formData.message,
+        }),
       })
 
-      if (response.ok) {
-        alert('Message sent successfully!')
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus('success')
         setFormData({ name: '', email: '', subject: '', message: '' })
       } else {
-        alert('Failed to send message.')
+        setStatus('error')
       }
-    } catch (error) {
-      alert('Error sending message.')
+    } catch {
+      setStatus('error')
     }
   }
 
@@ -93,9 +101,24 @@ const ContactForm = () => {
               ></textarea>
             </div>
 
-            <button type="submit" className="submit-btn">
-              Send Message
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={status === 'sending'}
+            >
+              {status === 'sending' ? 'Sending...' : 'Send Message'}
             </button>
+
+            {status === 'success' && (
+              <p className="form-success">
+                ✅ Message sent! I'll get back to you soon.
+              </p>
+            )}
+            {status === 'error' && (
+              <p className="form-error">
+                ❌ Something went wrong. Please try again or email me directly.
+              </p>
+            )}
           </form>
         </div>
       </div>
