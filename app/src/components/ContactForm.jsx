@@ -1,41 +1,25 @@
 import React, { useState } from 'react'
-const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
 
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
   const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'success' | 'error'
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
 
+    const formData = new FormData(e.target)
+    formData.append('access_key', import.meta.env.VITE_WEB3FORMS_KEY)
+
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject || 'New message from portfolio',
-          message: formData.message,
-        }),
+        body: formData,   // FormData — no Content-Type header, no JSON.stringify
       })
-
       const data = await response.json()
 
       if (data.success) {
         setStatus('success')
-        setFormData({ name: '', email: '', subject: '', message: '' })
+        e.target.reset()
       } else {
         setStatus('error')
       }
@@ -56,8 +40,6 @@ const ContactForm = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
                 placeholder="Your full name"
                 required
               />
@@ -69,8 +51,6 @@ const ContactForm = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
                 placeholder="your.email@company.com"
                 required
               />
@@ -82,8 +62,6 @@ const ContactForm = () => {
                 type="text"
                 id="subject"
                 name="subject"
-                value={formData.subject}
-                onChange={handleChange}
                 placeholder="Project collaboration, consultation, etc"
               />
             </div>
@@ -94,8 +72,6 @@ const ContactForm = () => {
                 id="message"
                 name="message"
                 rows="6"
-                value={formData.message}
-                onChange={handleChange}
                 placeholder="Tell me about your AI/ML project or how we can work together..."
                 required
               ></textarea>
