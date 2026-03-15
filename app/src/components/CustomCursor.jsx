@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 const CustomCursor = () => {
-  const [isHovering, setIsHovering] = useState(false)
-
   useEffect(() => {
     const cursor = document.querySelector('.cursor')
     const follower = document.querySelector('.cursor-follower')
@@ -10,59 +8,49 @@ const CustomCursor = () => {
     if (!cursor || !follower) return
 
     const moveCursor = (e) => {
-      const x = e.clientX
-      const y = e.clientY
-      
-      // Move main cursor immediately
-      cursor.style.left = x + 'px'
-      cursor.style.top = y + 'px'
-      
-      // Move follower with slight delay
+      cursor.style.left = e.clientX + 'px'
+      cursor.style.top = e.clientY + 'px'
       setTimeout(() => {
-        follower.style.left = x + 'px'
-        follower.style.top = y + 'px'
+        follower.style.left = e.clientX + 'px'
+        follower.style.top = e.clientY + 'px'
       }, 80)
     }
 
+    const isInteractive = (target) => {
+      // Guard: must be a real Element (not document, window, or text node)
+      if (!target || typeof target.closest !== 'function') return false
+      return (
+        target.tagName === 'A' ||
+        target.tagName === 'BUTTON' ||
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.classList.contains('clickable') ||
+        target.classList.contains('cta-button') ||
+        target.classList.contains('project-link') ||
+        target.classList.contains('theme-toggle') ||
+        !!target.closest('a') ||
+        !!target.closest('button')
+      )
+    }
+
     const handleMouseEnter = (e) => {
-      const target = e.target
-      if (target.tagName === 'A' || 
-          target.tagName === 'BUTTON' || 
-          target.classList.contains('clickable') ||
-          target.closest('a') ||
-          target.closest('button') ||
-          target.classList.contains('cta-button') ||
-          target.classList.contains('project-link') ||
-          target.classList.contains('theme-toggle')) {
-        
-        setIsHovering(true)
+      if (isInteractive(e.target)) {
         cursor.classList.add('cursor-hover')
         follower.classList.add('cursor-follower-hover')
       }
     }
 
     const handleMouseLeave = (e) => {
-      const target = e.target
-      if (target.tagName === 'A' || 
-          target.tagName === 'BUTTON' || 
-          target.classList.contains('clickable') ||
-          target.closest('a') ||
-          target.closest('button') ||
-          target.classList.contains('cta-button') ||
-          target.classList.contains('project-link') ||
-          target.classList.contains('theme-toggle')) {
-        
-        setIsHovering(false)
+      if (isInteractive(e.target)) {
         cursor.classList.remove('cursor-hover')
         follower.classList.remove('cursor-follower-hover')
       }
     }
 
-    // Add event listeners
     document.addEventListener('mousemove', moveCursor)
     document.addEventListener('mouseenter', handleMouseEnter, true)
     document.addEventListener('mouseleave', handleMouseLeave, true)
-    
+
     return () => {
       document.removeEventListener('mousemove', moveCursor)
       document.removeEventListener('mouseenter', handleMouseEnter, true)

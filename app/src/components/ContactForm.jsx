@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY'
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
