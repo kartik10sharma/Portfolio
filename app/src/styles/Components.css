@@ -1457,3 +1457,121 @@ main {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+/* =====================================================
+   PASTE THIS ENTIRE BLOCK AT THE BOTTOM OF components.css
+   ===================================================== */
+
+/* 1. Stop the section from being invisible on first render.
+      Your .section class may have opacity:0 or similar from
+      a page-load animation — this forces it visible. */
+.projects-section {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* 2. The marquee wrapper stays inside .container but needs to
+      break out of the container's max-width to go full-bleed.
+      We use negative margins for that. */
+.marquee-wrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  padding: 2.5rem 0 3rem;
+  margin-top: 3rem;
+  /* Fade edges to match your glass aesthetic */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+}
+
+/* 3. The actual scrolling track */
+.marquee-track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  animation: marqueeScroll 40s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 4. Individual card overrides — inherit ALL your existing
+      .project-card styles, just fix the ones that break marquee */
+.marquee-card {
+  /* Force visible — overrides the scroll-reveal opacity:0 */
+  opacity: 1 !important;
+  transform: none !important;
+  /* Fixed width for uniform cards */
+  width: 420px;
+  flex-shrink: 0;
+  /* Keep 3D context for content translateZ */
+  transform-style: preserve-3d;
+}
+
+/* Clean hover — no rotateY inside a scrolling track */
+.marquee-card:hover {
+  transform: translateY(-12px) scale(1.02) !important;
+  border-color: var(--accent-blue);
+  box-shadow:
+    0 30px 60px var(--shadow),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(0, 122, 255, 0.1);
+}
+
+.marquee-card .project-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+.marquee-card .project-full-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 5. Mobile — disable marquee, stack normally */
+@media (max-width: 768px) {
+  .marquee-wrapper {
+    width: 100%;
+    left: auto;
+    right: auto;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee-track {
+    animation: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .marquee-card {
+    width: 100% !important;
+  }
+}

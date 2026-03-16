@@ -1,53 +1,61 @@
 import first from '../assets/projects/first.png'
 import second from '../assets/projects/second.png'
-import React, { useEffect } from 'react'
-
+import React, { useRef } from 'react'
 
 const projects = [
   {
     title: 'Image Processing System',
-    description: 'Built a serverless image processing pipeline using models like YOLO for object detection and SRGAN for super-resolution, enabling high-quality, automated analysis of over 1000 images with 98% accuracy. Leveraged Appwrite (backend as service) to support automatic, real-time scaling and process peak workloads with 0 downtime.',
+    description: 'Built a serverless image processing pipeline using models like YOLO for object detection and SRGAN for super-resolution, enabling high-quality, automated analysis of over 1000 images with 98% accuracy.',
     image: first,
-    techStack: ['Yolo', 'S3', 'JavaScript', 'Redis', 'AWS '],
+    techStack: ['Yolo', 'S3', 'JavaScript', 'Redis', 'AWS'],
     github: 'https://github.com/Image-processing-cdef',
     demo: 'https://cdef-project.vercel.app/'
   },
   {
     title: 'Electricity Load Prediction Model',
-    description:  'A web-based power demand prediction system using LSTM model to forecast daily, weekly and monthly electricity load. Used Python and ML libraries to process 10,000+ rows of time-series electricity grid data Implemented FastAPI and ReactJS for real-time prediction platform; achieved 85% forecasting accuracy on Delhi grid data intuitive chart visualizations, and MAPE-based accuracy metrics are included',
+    description: 'A web-based power demand prediction system using LSTM model to forecast daily, weekly and monthly electricity load. Used Python and ML libraries to process 10,000+ rows of time-series electricity grid data.',
     image: second,
     techStack: ['Python', 'JS', 'FastAPI', 'Tensorflow', 'Vite'],
     github: 'https://github.com/kartik10sharma/SIH2024',
     demo: 'https://github.com/kartik10sharma/SIH2024/blob/main/README.md'
+  },
+  {
+    title: 'DevPath - AI-Powered Workflow Generator',
+    description: 'DevPath is an intelligent workflow generation system that leverages Google Gemini AI to create comprehensive, step-by-step development roadmaps for web and mobile applications. Whether youre building a custom app or cloning popular platforms like Facebook, Uber, or Netflix, DevPath guides you through every phase of development.',
+    image: second,
+    techStack: [ 'JS', 'FastAPI', 'Vite',' Gemini'],
+    github: 'https://github.com/kartik10sharma/minor_prj',
+    demo: 'https://minor-prj.vercel.app/'
   }
 ]
 
+// Repeat 4x so the seamless loop works at any screen width with only 2 projects
+const repeated = [...projects, ...projects, ...projects, ...projects]
+
 const FeaturedProjects = () => {
-  useEffect(() => {
-    const cards = document.querySelectorAll('.project-card')
+  const trackRef = useRef(null)
 
-    const onScroll = () => {
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect()
-        if (rect.top < window.innerHeight * 0.9) {
-          card.classList.add('visible')
-        }
-      })
-    }
-
-    window.addEventListener('scroll', onScroll)
-    onScroll() // initial check on mount
-
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const handleMouseEnter = () => {
+    if (trackRef.current) trackRef.current.style.animationPlayState = 'paused'
+  }
+  const handleMouseLeave = () => {
+    if (trackRef.current) trackRef.current.style.animationPlayState = 'running'
+  }
 
   return (
     <section id="projects" className="section">
       <div className="container">
         <h2>Featured Projects</h2>
-        <div className="projects-grid">
-          {projects.map((project, index) => (
-            <div key={index} className="project-card">
+      </div>
+
+      <div
+        className="marquee-wrapper"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="marquee-track" ref={trackRef}>
+          {repeated.map((project, index) => (
+            <div key={index} className="project-card marquee-card visible">
               <div className="project-image">
                 <img
                   src={project.image}
