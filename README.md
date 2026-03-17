@@ -2,7 +2,7 @@
 
 A clean, modern personal portfolio website built with **React.js**, featuring a **Dark / Light theme toggle**, deployable in minutes on Vercel.
 
-**Live Demo:** [portfolio-henna-five-nzctsu4t67.vercel.app](https://portfolio-henna-five-nzctsu4t67.vercel.app)
+**Live Demo:** [kartik10sharma.vercel.app](https://kartik10sharma.vercel.app/)
 
 ---
 
