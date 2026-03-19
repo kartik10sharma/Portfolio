@@ -1,5 +1,7 @@
 import first from '../assets/projects/first.png'
 import second from '../assets/projects/second.png'
+import third from '../assets/projects/third.png'
+import fourth from '../assets/projects/fourth.png'
 import React, { useRef } from 'react'
 
 const projects = [
@@ -21,11 +23,19 @@ const projects = [
   },
   {
     title: 'DevPath - AI-Powered Workflow Generator',
-    description: 'DevPath is an intelligent workflow generation system that leverages Google Gemini AI to create comprehensive, step-by-step development roadmaps for web and mobile applications. Whether youre building a custom app or cloning popular platforms like Facebook, Uber, or Netflix, DevPath guides you through every phase of development.',
-    image: second,
+    description: 'DevPath is an intelligent workflow generation system that leverages Google Gemini AI to create comprehensive, step-by-step development roadmaps for web and mobile applications.',
+    image: third,
     techStack: [ 'JS', 'FastAPI', 'Vite',' Gemini'],
     github: 'https://github.com/kartik10sharma/minor_prj',
     demo: 'https://minor-prj.vercel.app/'
+  },
+  {
+    title: 'Void-Run Infinite Corridor Protocol v2.0',
+    description: 'A cyberpunk 3D endless runner built entirely in the browser.',
+    image: fourth,
+    techStack: [ 'JS', '3.js'],
+    github: 'https://github.com/kartik10sharma/first_console_game',
+    demo: 'https://kartik10sharma.github.io/first_console_game/'
   }
 ]
 
